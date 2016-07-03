@@ -1,0 +1,60 @@
+#contact{
+	width: 1000px;
+	height: 800px;
+	margin: auto;
+	margin-top: 30px;
+	/*background: rgb(244,244,244);*/
+	background: white;
+	border-radius: 5px;
+}
+
+#c-title{
+	width: 98%;
+	height: 45px;
+	border-bottom: 4px #138a2b solid;
+	padding-left: 20px;
+	padding-top: 5px;
+	font-size: 25px;
+	overflow: hidden;
+	font-weight: bold;
+}
+#c-title img{
+	position: relative;
+	top: 5px;
+}
+
+#c-num{
+	height: 100px;
+	border-bottom: 2px dashed #138a2b;
+	text-align: center;
+}
+#c-num div{
+	width: 720px;
+	height: 70px;
+	margin: auto;
+	font-size: 16px;
+	margin-top: 20px;
+}
+#c-num div span{
+	line-height: 30px;
+	margin-right: 40px;
+	float: left;
+}
+
+#c-map {
+	display: block;
+	margin: 5px 150px;
+}
+#cm-title{
+	color: rgb(255,154,50);
+	font-size: 20px;
+}
+
+.map-title{
+	font-size:15px;
+}
+.map-title span{
+	color:rgb(255,154,50);
+	font-size:20px;
+	margin-right: 60px;
+}

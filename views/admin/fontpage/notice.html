@@ -1,0 +1,88 @@
+<% include ../public/header.html %>
+<style rel="stylesheet" type="text/css">
+    #container{
+        margin-bottom: 100px;
+    }
+</style>
+<div class="content">
+
+    <div id="noticeDiv" class="main">
+        <div class="tag-head">
+            <a><span class="tag tag-active">公告管理</span></a>
+        </div>
+        <div class="tag-body">
+            <div class="form-main">
+                    <div id="container" class="ueditor">
+                        <script id="content"></script>
+                    </div>
+                    <div class="footer">
+                        <div>
+                            <button v-on:click="submit" class="btn btn-success">提交</button>
+                            <button v-on:click="reset" class="btn btn-danger">重置</button>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+<!--引入Ueditor-->
+<!--配置文件-->
+<script src="/ueditor/ueditor.config.js"></script>
+<!--编辑器源码文件-->
+<script src="/ueditor/ueditor.all.js"></script>
+<script>
+    $(function(){
+        $("#fontpage a").css('background-color','#d60a0a');
+        $("#fontpage ul").slideDown();
+        $("#notice li").css('background-color','#500ac9');
+
+        var ue = UE.getEditor('container',{
+            autoHeightEnabled: true,
+            autoFloatEnabled: true
+        });
+        ue.ready(function(){
+            $.get('/admin/fontpage/getNotice',function(data){
+                if(parseInt(data.status) === 0){
+                    alert('获取数据失败!');
+                    return;
+                }
+                ue.setContent(data.notice);
+                var notice = new Vue({
+                    el:"#noticeDiv",
+                    data:{
+                        id:data.id,
+                        notice : data.notice
+                    },
+                    methods:{
+                        submit:function(){
+                            var postData = {
+                                id:notice.$data.id,
+                                notice:ue.getContent()
+                            };
+                            $.post('/admin/fontpage/editNotice',postData,function(data){
+                                if(confirm('真的要提交吗?')){
+                                    if (parseInt(data.status) === 1){
+                                        alert('提交成功!');
+                                    }else{
+                                        alert('提交失败!');
+                                    }
+                                }else{
+                                    return;
+                                }
+
+                            });
+                        },
+                        reset: function(){
+                            ue.setContent('');
+                        }
+                    }
+                })
+            });
+        })
+    })
+</script>
+<% include ../public/footer.html %>

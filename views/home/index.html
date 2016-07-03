@@ -1,0 +1,290 @@
+	<% include public/header.html %>
+	<link rel="stylesheet" href="/css/index.css">
+		<div id="wrap2">
+            <!-- -----------头部框-------------- -->
+			<div id="header">
+				<div id="slider">
+					<div id="s-wrap">
+
+                        <template v-for="sliderImg in slider">
+                            <!--<img id="img{{$index+1}}" class="lazy s-img notDisplay" data-original="/uploadImg/multiparty/{{sliderImg.img_name}}" alt="{{sliderImg.title}}"/>-->
+                            <img id="img{{$index+1}}" class="s-img notDisplay" v-bind:src="'/uploadImg/multiparty/'+sliderImg.img_name" alt="{{sliderImg.title}}"/>
+                            <!--<img id="img1" class="s-img notDisplay" src="/uploadImg/multiparty/8j4MJFQMNVlHzBg8KPTGzC_x.png" />-->
+                            <!--<img id="img1" class="lazy s-img" src="/css/img-loader.gif" data-original="/uploadImg/multiparty/8j4MJFQMNVlHzBg8KPTGzC_x.png" alt="" width="300px" height="150px"/>-->
+                            <span id="imgAlt{{$index+1}}" style="font-size:15px;position: relative;z-index:1000;left:-320px;top:-8px;color:white;">{{sliderImg.title}}</span>
+                        </template>
+					</div>
+					<div id="point">
+						<ul id="slider_click">
+                            <template v-for="sliderImg in slider">
+                                <li id="click{{$index+1}}" class="click" v-on:click="displaySlider($event.target.innerText);">{{$index+1}}</li>
+                            </template>
+						</ul>
+					</div>
+				</div>
+				<!-- -----------分界线---------- -->
+				<div id="welcome">
+					<div id="wel_words">
+                        {{{notice.notice}}}
+                    </div>
+					<div id="wel_passage">
+						<span id="slogan">最新文章：</span>
+						<div id="l_ps">
+                            <template v-for="text in latestArticles">
+                                <p>
+                                    <span class="lps_title"><a href="/showText/{{text.id}}" target="_blank">{{text.title}}</a></span>
+                                    <span class="lps_time">{{text.created_at}}</span>
+                                </p>
+                            </template>
+
+						</div>
+					</div>
+				</div>
+				<!-- ------------------------- -->
+				<div id="contact_m">
+						<div id="contact_top">
+							<span id="ct_title">
+								≡≡联系方式≡≡
+							</span>
+						</div>
+						<div id="contact_content">
+								<p>地址：{{contact.address}}</p>
+								<p>联系电话：{{contact.fix_phone}}({{contact.fix_phone_name}})</p>
+								<p>移动电话：{{contact.telephone}} ({{contact.telephone_name}})</p>
+								<p>微信号：{{contact.wechat}}</p>
+								<p>
+									QQ：{{contact.qq}}
+									<a class="out-link" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={{contact.qq}}&site=www.dongfuguiyuan.com&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:675577341:51" alt="点击这里给我发消息" title="点击这里给我发消息"></a>
+								</p>
+								<p>
+									QQ群：{{contact.qq_group}}
+									<a class="out-link" target="_blank" href=""><img class="lazy" border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="中山东富名龟养殖" title="中山东富名龟养殖"></a>
+								</p>
+								<p>Email：{{contact.email}}</p>
+							</div>
+				</div>
+			</div>
+
+		<!-- ----------------第一个图片框---------------- -->
+			<div class="content-top" id="content1">
+				<div class="c-top">
+					<span>
+						龟鳖养殖品种
+					</span>
+					<a href="">>>更多</a>
+				</div>
+				<div id="c1-img">
+                    <template v-for="turtleImg in turtleBreed">
+                        <div>
+                            <p>
+								<a href="/showImg/{{turtleImg.id}}" target="_blank"><img class="lazy" v-bind:src="'/uploadImg/multiparty/'+turtleImg.img_name" alt="{{turtleImg.title}}"></a>
+                            </p>
+                            <span>{{turtleImg.title}}</span>
+                        </div>
+                    </template>
+				</div>
+			</div>
+
+		<!-- -----------------第二个图片框---------------- -->
+			<div class="content-top" id="content2">
+				<div class="c-top">
+					<span>
+						养殖场地一角
+					</span>
+					<a href="">>>更多</a>
+				</div>
+				<div id="c2-img">
+                    <template v-for="cultivateImg in turtleCultivate">
+                        <div>
+                            <p>
+								<a href="/showImg/{{cultivateImg.id}}" target="_blank"><img class="lazy" v-bind:src="'/uploadImg/multiparty/'+cultivateImg.img_name" alt="{{cultivateImg.title}}"></a>
+                            </p>
+                            <span>{{cultivateImg.title}}</span>
+                        </div>
+                    </template>
+				</div>
+			</div>
+
+		<!-- -----------------第三个图片框---------------- -->
+			<div id="content3">
+				<div id="c3-left" class="c3">
+					<!-- 头部 -->
+					<div class="c3-t">
+						<span id="c3l-t">
+							<span>近</span>期推荐
+						</span>
+						<span id="c3l-t-r">
+							<a href="">>>更多</a>
+						</span>
+					</div>
+					<!-- 头部end -->
+					<div id="c3l-content" class="c3-content">
+						<template v-for="recommandImg in turtleRecommand">
+                            <div>
+                                <p>
+									<a href="/showImg/{{recommandImg.id}}" target="_blank"><img class="lazy" v-bind:src="'/uploadImg/multiparty/'+recommandImg.img_name" alt="{{recommandImg.title}}"></a>
+								</p>
+                                <span>{{recommandImg.title}}</span>
+                            </div>
+                        </template>
+					</div>
+				</div>
+				<div id="c3-right" class="c3">
+					<!-- 头部 -->
+					<div class="c3-t">
+						<span id="c3r-t">
+							<span>常</span>年推荐
+						</span>
+						<span id="c3r-t-r">
+							<a href="">>>更多</a>
+						</span>
+					</div>
+					<!-- 头部end -->
+					<div id="c3r-content" class="c3-content">
+                        <template v-for="recommandAllYearImg in turtleRecommandAllYear">
+                            <div>
+                                <p>
+									<a href="/showImg/{{recommandAllYearImg.id}}" target="_blank"><img class="lazy" v-bind:src="'/uploadImg/multiparty/'+recommandAllYearImg.img_name" alt="{{recommandImgAllYear.title}}"></a>
+								</p>
+                                <span>{{recommandImgAllYear.title}}</span>
+                            </div>
+                        </template>
+					</div>
+				</div>
+			</div>
+
+		<!-- -----------------第四个文章框---------------- -->
+			<div id="content4">
+				<div id="c4-1" class="c4">
+					<span class="c4-top">
+						<p>『本场要闻』</p>
+						<a href="">>>更多</a>
+					</span>
+					<div class="c4-c">
+						<ul>
+                            <template v-for="text in newsText">
+                                <li><a href="/showText/{{text.id}}" target="_blank">{{text.title}}</a></li>
+                            </template>
+						</ul>
+					</div>
+				</div>
+				<div id="c4-2" class="c4">
+					<span class="c4-top">
+						<p>『市场动态』</p>
+						<a href="">>>更多</a>
+					</span>
+					<div class="c4-c">
+						<ul>
+                            <template v-for="text in marketText">
+                                <li><a href="/showText/{{text.id}}" target="_blank">{{text.title}}</a></li>
+                            </template>
+						</ul>
+					</div>
+				</div>
+				<div id="c4-3" class="c4">
+					<span class="c4-top">
+						<p>『行业评论』</p>
+						<a href="">>>更多</a>
+					</span>
+					<div class="c4-c">
+						<ul>
+                            <template v-for="text in commentText">
+                                <li><a href="/showText/{{text.id}}" target="_blank">{{text.title}}</a></li>
+                            </template>
+						</ul>
+					</div>
+				</div>
+				<div id="c4-4" class="c4">
+					<span class="c4-top">
+						<p>『养殖交流』</p>
+						<a href="">>>更多</a>
+					</span>
+					<div class="c4-c">
+						<ul>
+                            <template v-for="text in communicationText">
+                                <li><a href="/showText/{{text.id}}" target="_blank">{{text.title}}</a></li>
+                            </template>
+						</ul>
+					</div>
+				</div>
+			</div>
+            <img class="lazy" data-original="/uploadImg/multiparty/2LXakZOh3PH1WFDglhlDdRVV.jpg" alt="" width="300px" height="150px"/>
+
+        <script>
+            $(function(){
+//                $("img.lazy").lazyload({
+//                    effect:"fadeIn",
+////                    placeholder : "/css/img-loader.gif",     //用图片提前占位
+////                    event:"scrollstop",
+////                    threshold:200
+//                });
+//                Vue.use(require('vue-lazyload'),{
+
+//                    });
+            });
+
+			$(function(){
+                var wrap;
+				var initData = $.get('/index/getData',function(data){
+					if (parseInt(data.status) === 1){
+                        wrap = new Vue({
+                            el: '#wrap2',
+                            data: {
+                                contact: data.result.contact[0],
+                                notice: data.result.notice[0],
+                                slider: data.result.slider,
+                                latestArticles: data.result.latestArticles,
+                                turtleBreed: data.result.turtleBreed,
+                                turtleCultivate: data.result.turtleCultivate,
+                                turtleRecommand: data.result.turtleRecommand,
+                                turtleRecommandAllYear: data.result.turtleRecommand,
+                                newsText: data.result.newsText,
+                                marketText: data.result.marketText,
+                                commentText: data.result.commentText,
+                                communicationText: data.result.communicationText,
+                                curIndexSlider:1  //目前轮播图显示的图片id
+                            },
+                            methods: {
+                                slide: function () {
+                                    if(this.curIndexSlider == this.slider.length){
+                                        this.curIndexSlider = 0;
+                                    }else{
+                                        this.curIndexSlider++;
+                                        this.displaySlider(this.curIndexSlider);
+
+                                    }
+                                },
+                                displaySlider:function(img_id){
+                                    this.notDisplaySliders();
+                                    $('#click'+img_id).css('background','rgb(255,80,1)');
+                                    $('#img'+img_id).fadeIn();
+                                    $('#imgAlt'+img_id).fadeIn();
+                                    this.curIndexSlider = img_id;
+                                },
+                                notDisplaySliders:function(){
+                                    $('#point li').css('background','rgb(19,138,43)');
+                                    $('#s-wrap  img,#s-wrap span').fadeOut('fast');
+                                }
+                            }
+                        });
+					}else{
+                        alert('获取数据失败!');
+                    }
+
+                    /*轮播开始*/
+                    wrap.displaySlider(1);
+                    setInterval(wrap.slide,3000);
+				});
+
+
+
+
+
+                //图片延迟加载lazyload
+                //$("img.lazy").lazyload();
+
+
+			});
+
+        </script>
+	<% include public/footer.html %>

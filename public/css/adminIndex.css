@@ -1,0 +1,9 @@
+.content{
+    background: url(../img/bg2.jpg) no-repeat;
+    background-size:110%;
+}
+#quote {
+    margin: 10% 10%;
+    font-size: 220%;
+    text-shadow:1px 1px;
+}

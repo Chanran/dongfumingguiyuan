@@ -1,0 +1,49 @@
+<% include public/header.html %>
+<link rel="stylesheet" href="/css/jquery.galleryview-3.0-dev.css"/>
+<link rel="stylesheet" href="/css/showImg.css"/>
+<div id="wrap2">
+    <div id="content">
+        <h1 id="title">fdsf</h1>
+        <div id="imgs">
+            <div>
+                <ul id="myGallery" >
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function(){
+            var id = getId();
+            console.log(id);
+            $.get('/getImg',{id:id},function(data){
+                var myGallery =  $('#myGallery');
+                //图片种类
+                switch (data.imgs[0].img_type){
+                    case 2:$('#title').html('养殖品种');break;
+                    case 3:$('#title').html('养殖场');break;
+                    case 4:$('#title').html('近期推荐');break;
+                    case 5:$('#title').html('常年推荐');break;
+                }
+                //动态添加图片
+                for (i = 0;i < data.imgs.length; i++){
+                    var node = '<li><img src="/uploadImg/multiparty/'+data.imgs[i].img_name+'" alt="" width="300px" height="300px" /></li>';
+                    myGallery.append(node);
+                }
+                //图片展示
+                $('#myGallery').galleryView();
+            });
+
+            /*获取url里的id*/
+            function getId(){
+                var local_url = document.location.href;
+                var index =  local_url.indexOf('showImg/')+8;
+                var id = parseInt(local_url.substring(index));
+                return id;
+            }
+        });
+    </script>
+    <script src="/js/jquery.easing.1.3.js"></script>
+    <script src="/js/jquery.galleryview-3.0-dev.js"></script>
+    <script src="/js/jquery.timers-1.2.js"></script>
+    <% include public/footer.html %>

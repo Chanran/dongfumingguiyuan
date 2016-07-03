@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="css/login.css" type="text/css">
+    <link rel="stylesheet" href="css/normalize.css" type="text/css">
+</head>
+<body>
+<div class="header">
+    <p class="title">东富名龟园</p>
+</div>
+    <div class="form">
+        <div class="form-header">
+            <img src="img/avtar.png" alt="">
+        </div>
+        <div class="clear"></div>
+        <div class="form-body">
+            <input type="text" class="name" id="name" placeholder="name" required >
+            <div class="key">
+                <input type="password" id="password" placeholder="password" required >
+            </div>
+        </div>
+        <input class="login" type="submit" onClick="login()" value="登录">
+    </div>
+<div class="copyright">
+    Copyright©2016.Company name All rights reserved 东富名龟园
+</div>
+
+<script>
+    function login(){
+        var name = $('#name').val();
+        var password =  $('#password').val();
+        if (name === "" || password === ""){
+            return;
+        }
+        $.ajax({
+            type:"post",
+            url:'/checkLogin',
+            dataType:"json",
+            data: {
+                name:name,
+                password:password
+            },
+            success:function(data){
+                if(parseInt(data.status) === 0){
+                    alert('用户名或者密码错误');
+
+                }else if(parseInt(data.status) === 1){
+                    window.location.href = "/admin";
+                }
+            },
+            error:function(){
+                alert("服务器小哥貌似遇到一些问题...");
+            }
+        });
+    };
+
+</script>
+
+<script src="/js/jquery.min.js"></script>
+</body>
+</html>

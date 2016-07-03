@@ -1,0 +1,22 @@
+
+#content{
+    background-color: white;
+    margin: 40px 100px;
+}
+#title {
+    font-size: 40px;
+    line-height: 60px;
+    text-align: center;
+    margin-top: 20px;
+    z-index: 1000;
+}
+#imgs{
+    margin: 10px 100px;
+    padding:50px 0;
+}
+
+#imgs > div {
+    max-width: 800px;
+    max-height: 600px;
+    margin: 0 auto;
+}

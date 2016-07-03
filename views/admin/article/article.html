@@ -1,0 +1,154 @@
+<% include ../public/header.html %>
+<link rel="stylesheet" href="/css/adminFrame.css">
+<div class="content">
+    <div class="main">
+        <div id="shift" class="tag-head">
+            <a href="#articles"><span class="tag tag-active">文章列表</span></a>
+            <a id="addTag" href="#addArticle"><span class="tag">添加文章</span></a>
+        </div>
+        <div id="tags" class="tag-body">
+            <div id="articles" class="table">
+                <select v-on:change="getText(now_type_id)" v-model="now_type_id" class="selector">
+                    <option v-for="type in text_type" v-bind:value="type.id">{{ type.name }}</option>
+                </select>
+                <ol class="rounded-list">
+                    <template v-for="article in text">
+                        <li class="article-list" v-bind:title="article.title"><a
+                                v-on:click="showContent(article.content,$event)"><span class="article-title">{{ article.title }}</span><span
+                                class="read-quantity">阅读量:{{ article.read_quantity }}</span><span class="article-time">提交时间:{{ article.created_at }}</span></a>
+                                <!--<span class="editBtns"><button class="btn-success">编辑</button><button class="btn-danger"></button></span>-->
+                        </li>
+                        <div class="div-content hide">
+                            <div>
+
+                            </div>
+                        </div>
+                    </template>
+                </ol>
+            </div>
+            <div id="addArticle" class="form">
+                <label class="label" for="text_type">文章类型</label>
+                <div class="form-control">
+                    <select id="text_type" class="selector">
+                        <option v-for="type in text_type" v-bind:value="type.id">{{ type.name }}</option>
+                    </select>
+                </div>
+                <label class="label" for="article-title">标题</label>
+                <div class="form-control">
+                    <input id="article-title" type="text" placeholder="标题">
+                </div>
+                <label class="label" for="container">正文内容(上传图片时将编辑器全屏更好编辑~)</label>
+                <div id="container" class="ueditor">
+                    <script id="content" name="content"></script>
+                </div>
+                <br><br><br><br>
+                <div>
+                    <button id="submit" class="btn btn-success">
+                        提交
+                    </button>
+                    <button class="btn btn-danger" onClick="if(confirm('真的要后退吗?')) javascript:history.back()">
+                        返回
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--引入Ueditor-->
+<!--配置文件-->
+<script src="/ueditor/ueditor.config.js"></script>
+<!--编辑器源码文件-->
+<script src="/ueditor/ueditor.all.js"></script>
+
+<script>
+
+    $(function () {
+
+        <!--实例化编辑器-->
+        var ue = UE.getEditor('container');
+        ue.ready(function () {
+
+            //菜单栏
+            $("#article a").css('background-color', '#d60a0a');
+
+            //添加文章:接收初始化数据
+            $.ajax({
+                url: "/admin/article/article/textType",
+                dataType: 'json',
+                type: 'get',
+                success: function (data) {
+                   var tagObj =  new Vue({
+                        el: "#tags",
+                        data: {
+                            now_type_id: 1,
+                            text_type: data.text_type,
+                            text: data.text,
+                        },
+                        methods: {
+                            getText: function (type_id) {
+                                var ajaxObj = $.ajax({
+                                    url: "/admin/article/article/text",
+                                    dataType: 'json',
+                                    contentType: 'application/json',
+                                    type: 'get',
+                                    data: {
+                                        type_id: type_id,
+                                        text : {}
+                                    },
+                                    success: function (results) {
+                                        tagObj.$data.text = results ;
+                                    },
+                                    error: function (err) {
+                                        console.log(err);
+                                        alert('获取该类型的文章失败!');
+                                    }
+                                });
+                            },
+                            showContent: function (content, event) {
+                                $(event.target).parents('.article-list').next().slideToggle(500).children("div").html(content);
+                            },
+                        },
+
+                    });
+                },
+                error: function (req, status, err) {
+                    alert("服务器小哥貌似出了点问题~");
+                }
+            });
+            //添加文章:表单提交
+            $('#submit').on('click', function () {
+                var type_id = $('#text_type').val(),
+                        title = $('#article-title').val(),
+                        content = ue.getContent();
+                if (title == "" || content == "") {
+                    alert('标题或者正文不能为空!');
+                    return;
+                }
+                ;
+                $.ajax({
+                    url: '/admin/article/article/addArticle',
+                    dataType: 'json',
+                    type: 'post',
+                    data: {
+                        type_id: type_id,
+                        title: title,
+                        content: content,
+                    },
+                    success: function () {
+                        alert('提交成功!');
+                    },
+                    error: function (err) {
+                        console.log(err);
+                        alert('提交失败!');
+                    }
+                });
+            });
+        });
+
+    })
+
+</script>
+
+<% include ../public/footer.html %>

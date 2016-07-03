@@ -1,0 +1,74 @@
+<% include ../public/header.html %>
+<div class="content">
+
+    <div class="main">
+        <div class="tag-head">
+            <a><span class="tag tag-active">常年推荐</span></a>
+        </div>
+        <div class="tag-body">
+            <form id="form" name="form">
+                <div id="slide" class="form-main">
+                    <div class="form-input">
+                        <label for="title">图片文字</label>
+                        <input id="title" name="title" type="text" required="required" />
+                    </div>
+                    <div class="form-input">
+                        <label for="image">上传图片</label>
+                        <input id="image" name="image" type="file" value="上传图片" required="required"/>
+                    </div>
+                    <div class="footer">
+                        <div>
+                            <input type="button" value="上传" onClick="upload()" class="btn btn-success">
+                            <button class="btn btn-danger" onClick="if(confirm('真的要后退吗?')) javascript:history.back()">
+                                返回
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+<script>
+    $(function(){
+        $("#turtle a").css('background-color','#d60a0a');
+        $("#turtle ul").slideDown();
+        $("#recommandAllYear li").css('background-color','#500ac9');
+    })
+    function upload() {
+        if($('#title').val() == '' || $('#image').val() == '' ){
+            alert('图片标题或者上传图片不能为空!');
+            return;
+        }
+        var data = new FormData($('#form')[0]);
+        $.ajax({
+            url: '/admin/turtle/addRecommandAllYearImg',
+            type: 'post',
+            data: data,
+            dataType: 'json',
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                console.log(data)
+                if (parseInt(data.status) === 1) {
+                    $.get('/admin/turtle/addRecommandAllYearTitle',{title:$('#title').val(),id:data.id},function(ret){
+                        if (parseInt(ret.status) === 1){
+                            alert('提交成功!');
+                        }else{
+                            alert('提交失败!');
+                        }
+                    })
+                } else {
+                    alert('图片上传失败!');
+                }
+            },
+            error: function (err) {
+                console.log(err);
+                alert('服务器小哥出了点问题!');
+            }
+        });
+    }
+</script>
+<% include ../public/footer.html %>

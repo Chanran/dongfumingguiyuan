@@ -1,0 +1,80 @@
+	<% include public/header.html %>
+	<link rel="stylesheet" href="/css/show.css">
+		<div id="wrap2">
+			<!-- -----------------顶部第一个框---------------- -->
+			<div id="s1">
+				<div id="s1-cover">
+					<img src="/img/s1-cover.jpg" alt="">
+				</div>
+				<div id="s1-right">
+					<div id="s-nav">
+						<p>
+							<span>龟园展示</span>
+						</p>
+						<ul>
+							<a href="#s2"><li>龟鳖养殖品种</li></a>
+							<a href="#s3"><li>养殖场地一角</li></a>
+							<a href="#s4"><li>常年推荐</li></a>
+						</ul>
+					</div>
+				</div>
+			</div>
+	
+			<!-- -----------------顶部第二个框---------------- -->
+			<div id="s2" class="s">
+				<div class="s-top">
+					<span>
+						&nbsp;龟鳖养殖品种
+					</span>
+				</div>
+				<div class="s-c">
+					<template v-for="turtleImg in turtleBreed">
+						<a href="/showImg/{{turtleImg.id}}" target="_blank"><img v-bind:src="'/uploadImg/multiparty/'+turtleImg.img_name" alt="{{turtleImg.title}}"></a>
+					</template>
+				</div>
+
+			</div>
+
+			<div id="s3" class="s">
+				<div class="s-top">
+					<span>
+						&nbsp;养殖场地一角
+					</span>
+				</div>
+				<div class="s-c">
+					<template v-for="cultivateImg in turtleCultivate">
+						<a href="/showImg/{{cultivateImg.id}}" target="_blank"><img v-bind:src="'/uploadImg/multiparty/'+cultivateImg.img_name" alt="{{cultivateImg.title}}"></a>
+					</template>
+				</div>
+			</div>
+
+			<div id="s4" class="s">
+				<div class="s-top">
+					<span>
+						&nbsp;常年推荐
+					</span>
+				</div>
+				<div class="s-c">
+					<template v-for="recommandImg in turtleRecommand">
+						<a href="/showImg/recommandImg.id" target="_blank"><img v-bind:src="'/uploadImg/multiparty/'+recommandImg.img_name" alt="{{recommandImg.title}}"></a>
+					</template>
+				</div>
+			</div>
+
+			<script>
+				$(function(){
+					var wrap = new Vue({
+						el:'#wrap2',
+					});
+					$.get('/show/getData',function(data){
+						if (parseInt(data.status) === 1){
+							console.log(data);
+							wrap.$data = data.result;
+						}else{
+							alert('获取数据失败');
+						}
+					});
+				})
+			</script>
+
+	<% include public/footer.html %>

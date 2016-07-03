@@ -1,0 +1,176 @@
+<% include ../public/header.html %>
+<script src="/js/jquery.page.js"></script>
+<link rel="stylesheet" href="/css/paginator.css"/>
+<div class="content">
+    <div id="msg">
+        <div class="big-block-padding" v-for="msg in msgs">
+
+            <div class="msg-send">
+                <div class="msg-config">
+                    <span class="msg-email">{{ msg.email }}</span>
+                    <span class="msg-name">{{msg.guest_name}}:</span>
+                    <span class="msg-time pull-right">{{msg.comment_at}}</span>
+                    <hr>
+                </div>
+                <div class="msg-content">
+                    {{ msg.comment }}
+                </div>
+                <span class="arrow-right"></span>
+            </div>
+            <div class="msg-receive">
+                <div class="msg-config">
+                    <span class="msg-reply">回复:{{msg.guest_name}}</span>
+                    <span class="msg-time pull-right">{{msg.reply_at}}</span>
+                    <hr>
+                </div>
+                <div class="msg-content">
+                    <template v-if=' msg.reply != "" '>
+                        {{ msg.reply }}
+                    </template>
+                    <template v-else="">
+                        <p style="font-size: 20px;color:red">待回复...</p>
+                    </template>
+                </div>
+                <span class="arrow-left"></span>
+            </div>
+            <div class="msg-edit">
+                对此对话的操作:
+                <button v-on:click="replyModal(msg.id)" class="btn btn-success" >回复</button>
+                <button v-on:click="del(msg.id)" class="btn btn-danger">删除对话</button>
+            </div>
+            <div class="msg-edit">
+                是否在前台显示:
+                <button v-on:click="showOrNot(msg.id,1)" class="btn btn-info">显示</button>
+                <button v-on:click="showOrNot(msg.id,0)" class="btn btn-danger">不显示</button>
+                <span>
+                    <template v-if="msg.is_show == 1" >
+                        已在前台显示
+                    </template>
+                    <template v-else="msg.is_show == 0" >
+                        未在前台显示
+                    </template>
+                </span>
+            </div>
+
+            <!--回复模态框代码-->
+            <div v-on:click.self="closeReplyModal(msg.id)" id="replyModal{{msg.id}}" class="modal">
+                <div class="modal-main">
+                    <div class="modal-header">
+                        <span class="text-bold text-big pull-left">回复:{{msg.guest_name}}</span>
+                        <span v-on:click="closeReplyModal(msg.id)" class="close-icon text-bold pull-right">X</span>
+                    </div>
+                    <div class="modal-body">
+                        <textarea v-model="msg.reply" class="modal-textarea" id="reply" cols="40" rows="15"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button v-on:click="reply(msg.id,msg.reply)" class="btn btn-success">回复</button>
+                        <button v-on:click="closeReplyModal(msg.id)" class="btn btn-danger">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pagination">
+            <div class="tcdPageCode"></div>  <!--分页div-->
+        </div>
+
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#exchange a").css('background-color', '#d60a0a');
+    });
+
+    $(function () {
+
+        var msg = new Vue({
+            el: "#msg",
+            data: {
+                msgs: {},
+            },
+            methods: {
+                replyModal: function (msg_id) {
+                    $('#replyModal' + msg_id).addClass('modal-active');
+                },
+                closeReplyModal: function (msg_id) {
+                    $('#replyModal' + msg_id).removeClass('modal-active');
+                },
+                reply: function (msg_id, reply_content) {
+                    $.post('/admin/exchange/reply', {
+                        msg_id: msg_id,
+                        reply_content: reply_content
+                    }, function (result) {
+                        if (result.status) {
+                            alert('回复成功!');
+                        } else {
+                            alert('回复失败!');
+                        }
+                        msg.closeReplyModal(msg_id);
+                    });
+                },
+                del: function (msg_id) {
+                    if (confirm('真的要删除此对话吗?')) {
+                        $.get('/admin/exchange/del', {msg_id: msg_id}, function (result) {
+                            if(result.status){
+                                alert('删除成功!');
+                            }else{
+                                alert('删除失败!');
+                            }
+                        })
+                    } else {
+                        return;
+                    }
+                },
+                showOrNot:function(msg_id,choice){
+                    if (choice === 1){
+                        if (confirm('真的要在前台显示此对话吗?')){
+                            $.get('/admin/exchange/show',{msg_id:msg_id,showOrNot:1},function(result){
+                                if(result.status){
+                                    alert('此对话在前台显示!');
+                                }else{
+                                    alert('请求显示失败');
+                                }
+                            })
+                        }else{
+                            return;
+                        }
+                    }else if (choice === 0){
+                        if (confirm('真的要在前台不显示此对话吗?')){
+                            $.get('/admin/exchange/show',{msg_id:msg_id,showOrNot:0},function(result){
+                                if(result.status){
+                                    alert('此对话在不前台显示!');
+                                }else{
+                                    alert('请求显示失败');
+                                }
+                            })
+                        }else{
+                            return;
+                        }
+                    }
+
+                }
+            }
+        })
+
+
+        $.get('/admin/exchange/getTotalPages',function(result){
+            var totalPages = result.totalPages;
+            $(".tcdPageCode").createPage({
+                pageCount:totalPages,
+                current:1,
+                backFn:function(p){
+                    //单击回调方法，p是当前页码
+                    var msgDataAjax = $.get("/admin/exchange/getMsgData",{nowPage:p}, function (data) {
+                        msg.$data.msgs = data;
+                    });
+                }
+            });
+            //初始化,获取第一页数据
+            $.get("/admin/exchange/getMsgData",{nowPage:1}, function (data) {
+                msg.$data.msgs = data;
+            });
+        });
+    });
+
+</script>
+<% include ../public/footer.html %>

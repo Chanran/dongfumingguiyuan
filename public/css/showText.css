@@ -1,0 +1,183 @@
+#showtitle {
+    border-left: 8px solid olive;
+    border-top: 1px solid olive;
+    border-right: 1px solid olive;
+    width: 125px;
+    height: 33px;
+    float: left
+}
+
+#passageshow {
+    width: 1050px;
+    min-height: 610px;
+    height: auto;
+    margin: 0 auto;
+    margin-top: 10px
+}
+
+#showtitleleft {
+    border-bottom: 2px solid olive;
+    float: left;
+    width: 915px;
+    height: 33px
+}
+
+#showbottom {
+    width: 1040px;
+    min-height: 500px;
+    border-left: 8px solid olive;
+    float: left
+}
+
+#showbottom-title {
+    height: 70px;
+    width: 1040px;
+    border-right: 2px solid olive;
+    border-bottom: 1px dotted
+}
+#showbottom img{
+    max-width:650px;
+    max-heigth:350px;
+}
+
+#showbottom-title div {
+    position: relative;
+    top: 15px;
+    left: 250px
+}
+
+#showbottom-left {
+    border-right: 1px dotted;
+    min-height: 600px;
+    width: 750px;
+    float: left;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px
+}
+
+#showbottom-left div {
+    min-height: 500px;
+    width: 630px
+}
+
+#showbottom-right {
+    background-color: #fff;
+    padding-top: 10px;
+    padding-left: 10px;
+    min-height: 500px;
+    width: 259px;
+    float: left
+}
+
+#showbottom-right-title {
+    width: 82px;
+    height: 20px;
+    background-color: #f93;
+    margin-bottom: 20px
+}
+
+#showleft1 {
+    position: relative;
+    top: 40px;
+    left: 30px
+}
+
+#showleft1 div {
+    position: relative;
+    left: 200px
+}
+
+#passage-head-left-bottom {
+    width: 300px;
+    height: 100px;
+    position: relative;
+    top: 30px;
+    left: 20px
+}
+
+#passage-head-right {
+    width: 656px;
+    heigth: 300px;
+    position: relative;
+    left: 335px;
+    top: -130px
+}
+
+#passage-body {
+    width: 950px;
+    margin-left: 25px;
+    border: 1px dotted
+}
+
+#passage-body-top-left {
+    width: 100px;
+    height: 190px;
+    margin-top: 10px;
+    float: left
+}
+
+#passage-body-top-left-top {
+    background-color: olive;
+    width: 90px;
+    height: 25px
+}
+
+#passage-body-top-left-top div {
+    position: relative;
+    top: 4px;
+    left: 9px
+}
+
+#passage-body-top-rigth {
+    width: 800px;
+    float: left;
+    position: relative;
+    top: 45px
+}
+
+.passage-body-top-rigth-title {
+    width: 399px;
+    margin-bottom: 5px;
+    float: left
+}
+
+#passage-body-top {
+    float: left;
+    min-height: 200px
+}
+
+#passage-body-bottom {
+    width: 950px;
+    height: 400px;
+    float: left;
+    border-top: 1px dotted;
+: 1 px dotted
+}
+
+#passage-body-bottom-left {
+    margin-top: 6px;
+    border-right: 1px dotted;
+    border-left: 1px dotted;
+    width: 300px;
+    min-height: 392px;
+    float: left
+}
+
+#passage-body-bottom-left-top {
+    border-bottom: 1px dotted;
+    height: 30px
+}
+
+#passage-body-bottom-left-bottom {
+    position: relative;
+    top: 5px
+}
+
+.relateTexts {
+    font-size: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: blue;
+    line-height: 30px;
+}

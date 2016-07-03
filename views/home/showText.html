@@ -1,0 +1,61 @@
+<% include public/header.html %>
+<link rel="stylesheet" href="/css/showText.css">
+<div id="wrap2">
+    <div id="passageshow">
+        <div id="showtitle">
+            <font face="华文中宋" size="5" color="#808000">&nbsp;{{text.type_name}}</font>
+        </div>
+        <div id="showtitleleft">
+
+        </div>
+
+        <div id="showbottom">
+            <div id="showbottom-title" style="line-height:20px;">
+                <div>
+                    <p style="font-weight:bold;font-size:23px;">{{text.title}}</p>
+                    <p style="margin-top:5px;font-size:15px;">{{text.created_at}}<span style="margin-left:300px;">阅读量：{{text.read_quantity}}</span></p>
+                </div>
+            </div>
+            <div id="showbottom-left" style="background-color:white;">
+                <div style="line-height: 1.5;">
+                    {{{text.content}}}
+                </div>
+            </div>
+            <div id="showbottom-right" style="position:relative;z-index:999;">
+                <div id="showbottom-right-title" >&nbsp;相关文章</div>
+                <div class="relateTexts">
+                    <ul v-for="otherText in text.otherTexts">
+                        <a href="/showText/{{otherText.id}}" target="_blank"><li>◆{{otherText.title}}</li></a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        $(function(){
+            var wrap = new Vue({
+                el:'#wrap2',
+            });
+            var id = getId();
+            $.get('/getText',{id:id},function(data){
+                console.log(data)
+                if (parseInt(data.status) === 1){
+                    wrap.$data = data;
+                }else{
+                    alert('获取信息失败!');
+                }
+            });
+        })
+
+        /*获取url里的id*/
+        function getId(){
+            var local_url = document.location.href;
+            var index =  local_url.indexOf('showText/')+9;
+            var id = parseInt(local_url.substring(index));
+            return id;
+        }
+    </script>
+    <% include public/footer.html %>

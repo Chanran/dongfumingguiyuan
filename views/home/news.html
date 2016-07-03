@@ -1,0 +1,60 @@
+<% include public/header.html %>
+<script src="/js/jquery.page.js"></script>
+<link rel="stylesheet" href="/css/paginator.css"/>
+<link rel="stylesheet" href="/css/passage.css">
+<div id="wrap2">
+    <div class="main">
+        <span class="main-title">本场要闻</span>
+
+        <template v-for="text in texts">
+            <div class="article">
+                <div class="atc-left">
+                    <a href="/showText/{{text.id}}" class="atc-title">
+                        {{text.title}}
+                    </a>
+						<span class="atc-time">
+							{{text.created_at}}
+						</span>
+
+                    <div class="content">
+                            {{{text.content}}}
+                    </div>
+
+                </div>
+            </div>
+        </template>
+        <!--分页div-->
+        <div class="pagination">
+            <div class="tcdPageCode"></div>
+        </div>
+
+    </div>
+
+    <script>
+        $(function () {
+            var wrap = new Vue({
+                el: "#wrap2",
+            });
+
+
+            $.get('/news/getTotalPages', function (result) {
+                var totalPages = result.totalPages;
+                $(".tcdPageCode").createPage({
+                    pageCount: totalPages,
+                    current: 1,
+                    backFn: function (p) {
+                        //单击回调方法，p是当前页码
+                        var wrapDataAjax = $.get("/news/getData", {nowPage: p}, function (data) {
+                            wrap.$data = data;
+                        });
+                    }
+                });
+                //初始化,获取第一页数据
+                $.get("/news/getData", {nowPage: 1}, function (data) {
+                    wrap.$data = data;
+                });
+            });
+        });
+    </script>
+
+    <% include public/footer.html %>

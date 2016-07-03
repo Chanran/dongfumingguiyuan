@@ -1,0 +1,116 @@
+	<% include public/header.html %>
+	<script src="/js/jquery.page.js"></script>
+	<link rel="stylesheet" href="/css/paginator.css"/>
+	<link rel="stylesheet" href="/css/message.css">
+			<div id="wrap2">
+			<div id="msg">
+				<div id="msg-top">
+					<span>留言</span>
+				</div>
+				<div id="msg-form">
+						<p>您的E-mail不会被公开</p>
+						<p>姓名<span>*</span></p>
+						<input v-model="guest_name" type="text" width="200px">
+						<p>电子邮件 </p> 
+						<input v-model="email" type="text" width="200px">
+						<p>评论</p>
+						<textarea v-model="comment" id="" cols="60" rows="10"></textarea>
+						<input id="msg-submit" v-on:click="submit" type="button" value="提交评论" />
+				</div>
+			</div>
+			<div id="msg-reply">
+					<ul v-for="message in messages">
+						<li class="msg-left">
+							<div class="msg-top">
+								<span class="msg-user">
+									{{ message.guest_name }}
+								</span>
+								<span class="msg-time">
+									{{ message.comment_at }}
+								</span>
+							</div>
+							<div class="msg-bottom">
+								{{ message.comment }}
+							</div>
+						</li>
+						<li class="msg-right">
+							<div class="msg-top">
+								<span class="msg-user">
+									回复：{{ message.guest_name }}
+								</span>
+								<span class="msg-time">
+									{{ message.reply_at }}
+								</span>
+							</div>
+							<div class="msg-bottom">
+								{{ message.reply }}
+							</div>
+						</li>
+					</ul>
+			</div>
+				<!--分页div-->
+				<div class="pagination" style="text-align: center" >
+					<div class="tcdPageCode" style="background-color: white;display:inline-block;margin: 0 auto;width:960px"></div>
+				</div>
+
+				<script>
+					$(function(){
+						var wrap = new Vue({
+							el: "#msg-reply",
+						});
+
+						//添加留言
+						var addMessage = new Vue({
+							el:'#msg-form',
+							data:{
+								guest_name:'',
+								email:'',
+								comment:''
+							},
+							methods:{
+								submit:function(){
+									if(this.checkEmail(addMessage.$data.email) === false){
+										return;
+									}
+									$.post('/message/addMessage',addMessage.$data,function(data){
+										if (parseInt(data.status) === 1){
+											alert('提交成功!');
+										}else{
+											alert('提交失败!');
+										}
+									})
+								},
+								checkEmail:function(email){
+									if (!(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(email))) {
+										alert("邮箱格式有误，请重新填写!");
+										return false;
+									}else{
+										return true;
+									}
+								}
+							}
+						});
+
+						$.get('/message/getTotalPages',function(result){
+							var totalPages = result.totalPages;
+							$(".tcdPageCode").createPage({
+								pageCount:totalPages,
+								current:1,
+								backFn:function(p){
+									//单击回调方法，p是当前页码
+									var wrapDataAjax = $.get("/message/getData",{nowPage:p}, function (data) {
+										wrap.$data = data;
+									});
+								}
+							});
+							//初始化,获取第一页数据
+							$.get("/message/getData",{nowPage:1}, function (data) {
+								wrap.$data = data;
+								console.log(wrap.$data);
+							});
+						});
+
+
+					});
+				</script>
+	<% include public/footer.html %>

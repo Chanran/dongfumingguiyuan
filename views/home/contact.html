@@ -1,0 +1,38 @@
+	<% include public/header.html %>
+	<link rel="stylesheet" href="/css/contact.css">
+		<div id="wrap2">
+			<div id="contact">
+				<div id="c-title">
+					联系方式
+					<img src="/img/basic-title.png" alt="">
+				</div>
+				<div id="c-num">
+					<div>
+						<span>固定电话：{{fix_phone}} ({{fix_phone_name}})</span>
+						<span>移动电话：{{telephone}} ({{telephone_name}})</span>
+						<span>EMail：{{email}}</span>
+						<span>地址：{{address}}</span>
+					</div>
+				</div>
+				<div id="c-map">
+					<iframe src="/html/guiyuanMap.html" frameborder="0" height="560" width="800"></iframe>
+					<div class="map-title"><span>东富名龟园自驾路线图</span> 龟园地址：广东省中山市东凤镇小沥路90号</div>
+				</div>
+			</div>
+
+            <script>
+                $(function(){
+                    var wrap = new Vue({
+                        el:'#wrap2',
+                    });
+                    $.get('/contact/getData',function(data){
+                        console.log(data)
+                        if (parseInt(data.status) === 1){
+                            wrap.$data = data.contact;
+                        }else{
+                            alert('获取信息失败!');
+                        }
+                    });
+                })
+            </script>
+	<% include public/footer.html %>

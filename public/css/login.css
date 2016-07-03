@@ -1,0 +1,111 @@
+html{
+	height:100%;
+}
+body{
+	background:url("../img/bg1.jpg") no-repeat 0px 0px;
+	background-size:contain;
+	-o-background-size:cover;
+	-moz-background-size:cover;
+	-webkit-background-size:cover;
+}
+
+p{
+	color:red;
+}
+
+.title{
+	width:400px;
+	margin: 60px auto;
+	background: transparent;
+	color:#3ea751;
+	text-align: center;
+	font-size: 50px;
+	font-weight: bold;
+	border-radius: 10px;
+	box-shadow: 6px 6px 10px 2px #000;
+	transition-duration:2s;
+}
+.title:hover{
+	transform: rotateX(360deg);
+}
+
+.form{
+	width:600px;
+	height:350px;
+	background-color:#2b2b36;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+	margin:1px auto;
+}
+
+.form-header{
+	text-align: center;
+}
+.form-header img{
+	margin: 20px 20px;
+}
+.form-body{
+	margin:0 auto;
+	text-align: center;
+	margin-bottom: 60px;
+}
+.form-body input[type="text"]{
+	background-color: transparent;
+	background: url(../img/adm.png) no-repeat 10px 10px;
+	outline:none;
+	border: 1px solid #2b2b36;
+	border-bottom: 1px solid #484856;
+	padding-left: 50px;
+	margin-bottom: 50px;
+	width:400px;
+	height:40px;
+	font-size: 25px;
+	font-weight: 100;
+	color:white;
+	transition-duration:1s;
+}
+.form-body input[type="password"]{
+	background-color: transparent;
+	background: url(../img/key.png) no-repeat 10px 15px;
+	outline:none;
+	border: 1px solid #2b2b36;
+	border-bottom: 1px solid #484856;
+	padding-left: 50px;
+	width:400px;
+	height:40px;
+	font-size:25px;
+	font-weight: 100;
+	color:white;
+	transition-duration:1s;
+}
+
+.form-body input:hover{
+
+}
+
+.login{
+	padding: 0px;
+	margin: 20px auto;
+	width:600px;
+	height:80px;
+	text-align: center;
+	border: none;
+	border-top: #2b2b36;
+	border-bottom-left-radius: 20px;
+	border-bottom-right-radius: 20px;
+	color:white;
+	font-size: 30px;
+	background-color:#3ea751;
+	transition-duration:1s;
+}
+.login:hover{
+	background-color: #ff2775;
+}
+
+.copyright{
+	margin-top: 150px;
+	text-align: center;
+	color:white;
+	font-size: 20px;
+
+}

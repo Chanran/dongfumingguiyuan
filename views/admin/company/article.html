@@ -1,0 +1,122 @@
+<% include ../public/header.html %>
+<style rel="stylesheet" type="text/css">
+    #container1,#container2,#container3{
+        width:800px;
+        height:200px;
+        margin: 40px auto;
+    }
+</style>
+<div id="companyData" class="content">
+
+    <input id="id" type="hidden" value="" />
+
+    <div class="small-center-title">
+        公司简介
+    </div>
+    <div id="container1" class="ueditor">
+        <script id="content1" name="introduction"></script>
+    </div>
+
+    <div class="big-center-title">
+        发展历程
+    </div>
+    <div id="container2" class="ueditor">
+        <script id="content2" name="development"></script>
+    </div>
+
+    <div class="big-center-title">
+        主营业务
+    </div>
+    <div id="container3" class="ueditor">
+        <script id="content3" name="business"></script>
+    </div>
+    <div class="footer">
+        <div>
+            <button id="submit" class="btn btn-success">提交</button>
+            <button id="reset" class="btn btn-danger">重置</button>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $("#company a").css('background-color','#d60a0a');
+        $("#company ul").slideDown();
+        $("#companyArticle li").css('background-color','#500ac9');
+    })
+</script>
+
+<!--引入Ueditor-->
+<!--配置文件-->
+<script src="/ueditor/ueditor.config.js"></script>
+<!--编辑器源码文件-->
+<script src="/ueditor/ueditor.all.js"></script>
+
+<script>
+
+     $(function () {
+        <!--实例化编辑器-->
+        var ue1 = UE.getEditor('container1',{
+            autoHeightEnabled: true,
+            autoFloatEnabled: true
+        });
+        var ue2 = UE.getEditor('container2',{
+            autoHeightEnabled: true,
+            autoFloatEnabled: true
+        });
+        var ue3 = UE.getEditor('container3',{
+            autoHeightEnabled: true,
+            autoFloatEnabled: true
+        });
+        ue1.ready(function () {
+            ue2.ready(function () {
+                ue3.ready(function () {
+                    $.get('/admin/company/getArticles',function(data){
+                        if (parseInt(data.status) === 1){
+                            ue1.setContent(data.introduction);
+                            ue2.setContent(data.development);
+                            ue3.setContent(data.business);
+                            $('#id').val(data.id);
+                        }else{
+                            alert('接收文章失败!');
+                        }
+                    });
+                });
+            });
+        });
+
+         $('#submit').on('click',function(){
+
+             if(confirm('真的要修改吗?')){
+                 var data ={
+                     introduction : ue1.getContent(),
+                     development : ue2.getContent(),
+                     business : ue3.getContent(),
+                     id: $('#id').val(),
+                 };
+                 $.post('/admin/company/editArticles',data,function(data){
+                     if(parseInt(data.status) === 1){
+                         alert('修改成功!');
+                     }else{
+                         alert('修改失败!');
+                     }
+                 })
+             }else{
+                 return;
+             }
+         });
+
+         $('#reset').on('click',function(){
+             if (confirm('真的要重置吗?')){
+                 ue1.setContent('');
+                 ue2.setContent('');
+                 ue3.setContent('');
+             }else{
+                 return;
+             }
+         })
+     });
+
+
+</script>
+
+<% include ../public/footer.html %>

@@ -1,0 +1,59 @@
+<% include public/header.html %>
+<link rel="stylesheet" href="/css/basic.css">
+		<div id="wrap2">
+			<div id="c1" class="b_c">
+				<div class="c_title">
+					<p>公司简介</p>
+				</div>
+				<div id="introduction" class="c_content" id="c1_content">
+					{{{introduction}}}
+				</div>
+
+			</div>
+			
+			<div id="c2" class="b_c">
+				<div class="c_title">
+					<p>发展历程</p>
+				</div>
+				<div id="development" class="c_content" id="c2_content">
+					{{{development}}}
+				</div>
+			</div>
+
+			<div id="c3" class="b_c">
+				<div class="c_title">
+					<p>主营业务</p>
+				</div>
+				<div id="business" class="c_content" id="c3_content">
+					{{{business}}}
+				</div>
+			</div>
+
+<script src="/js/jquery-1.12.0.min.js"></script>
+<script>
+	$(function(){
+
+		var introduction = $('#introduction'),
+				development = $('#development'),
+				business = $('#business');
+
+		var wrap;
+
+		$.get('/basic/getData',function(data){
+			if (parseInt(data.status) === 1 ){
+				wrap = new Vue({
+					el:'#wrap2',
+					data:{
+						introduction:data.introduction,
+						development:data.development,
+						business:data.business
+					}
+				});
+			}else{
+				alert('获取数据失败!');
+			}
+		});
+	});
+</script>
+
+<% include public/footer.html %>
